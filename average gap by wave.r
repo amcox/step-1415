@@ -11,7 +11,7 @@ update_functions <- function() {
 }
 update_functions()
 
-df <- load_data_with_calculated_fields()
-df <- subset(df, school %in% schools)
+df <- load_data_with_gaps_long()
+df <- subset(df, school %in% schools & grade < 3)
 
 save_plot_as_pdf(make_plot_average_gap(df), "STEP Average Gap")

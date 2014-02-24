@@ -6,6 +6,11 @@ load_data_with_calculated_fields <- function(){
   add_standard_calculated_fields(load_latest_step_data())
 }
 
+load_data_with_gaps_long <- function(){
+  df <- load_latest_step_data()
+  return(calculate_gaps_return_long(df))
+}
+
 load_step_goals <- function(){
   read.csv(file="./../Data/step goals.csv", head=TRUE,
   	na.string=c("", " ", "  ")
