@@ -17,7 +17,6 @@ update_functions()
 
 df <- load_latest_step_data()
 
-
 # TODO: Hist of gap, hist of growth, ggs mid year with 1 STEP per wave expected
 
 cut.ggs <- function(vec, expected.steps=3){

@@ -2,8 +2,8 @@ load_latest_step_data <- function(){
   read.csv(file="./../Data/step data.csv", head=TRUE, na.string=c("", " ", "  "))
 }
 
-load_data_with_calculated_fields <- function(){
-  add_standard_calculated_fields(load_latest_step_data())
+load_data_with_calculated_fields <- function(gaps=T){
+  add_standard_calculated_fields(load_latest_step_data(), gaps)
 }
 
 load_data_with_gaps_long <- function(){
@@ -30,4 +30,14 @@ load_step_goals_to_wave_and_year_just_ends <- function(w=6, y=c(2014)){
     r2 <- sorted.d[nrow(sorted.d),]
     data.frame(rbind(r1, r2))
   })
+}
+
+load_map_data <- function(){
+  read.csv(file="./../Data/map data all.csv", head=TRUE, na.string=c("", " ", "  ")) 
+}
+
+load_leap_data <- function(){
+  read.csv(file="./../Data/benchmark and leap scores.csv", head=TRUE, na.string=c("", " ", "  "),
+    stringsAsFactors=F
+  )
 }
