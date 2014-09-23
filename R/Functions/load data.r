@@ -33,11 +33,15 @@ load_step_goals_to_wave_and_year_just_ends <- function(w=6, y=c(2014)){
 }
 
 load_map_data <- function(){
-  read.csv(file="./../Data/map data all.csv", head=TRUE, na.string=c("", " ", "  ")) 
+  read.csv(file="./../Data/map data all.csv", head=TRUE, na.string=c("", " ", "  "),
+    stringsAsFactors=F
+  )
 }
 
 load_leap_data <- function(){
-  read.csv(file="./../Data/benchmark and leap scores.csv", head=TRUE, na.string=c("", " ", "  "),
+  d <- read.csv(file="./../Data/benchmark and leap scores.csv", head=TRUE, na.string=c("", " ", "  "),
     stringsAsFactors=F
   )
+  names(d) <- tolower(names(d))
+  return(d)
 }

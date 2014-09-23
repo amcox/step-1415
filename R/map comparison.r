@@ -16,7 +16,7 @@ update_functions()
 df.map <- subset(load_map_data(), subject == 'reading')
 df.step <- load_data_with_gaps_long()
 
-df.s.sub <- subset(df.step, wave == 3)
+df.s.sub <- subset(df.step, wave == 1)
 
 df.b <- merge(df.s.sub, df.map, by.x='id', by.y='id')
 
@@ -30,6 +30,47 @@ ggplot(df.b, aes(x=winter.percentile, y=gap))+
   )+
   theme_bw()+
   facet_grid(grade.x ~ school.x, margins=T)
+  
+# Band Comparison of STEP and MAP
+d <- subset(df.b, !is.na(home.room))
+make_step_map_band_plot_by_hr <- function(school.name, d) {
+  p <- ggplot(subset(d, school.y == school.name), aes(x=fall.percentile, y=gap))+
+    geom_point(shape=1)+
+    geom_hline(yintercept=c(1.5, -1.5))+
+    geom_vline(xintercept=c(40, 60))+
+    scale_x_continuous(limits=c(0, 100), breaks=seq(0, 100, 10))+
+    scale_y_continuous(breaks=seq(-12, 12, 1))+
+    labs(x='MAP Percentile Rank',
+      y='Gap in STEPs to Grade Level\n(Positive is Good, 3 STEPs = 1 Year)',
+      title=paste0('Student Performance on STEP Wave 1 and Fall MAP Reading, ', school.name)
+    )+
+    theme_bw()+
+    theme(axis.text.x=element_text(size=7),
+      axis.text.y=element_text(size=7)
+    )+
+    facet_wrap(~ home.room)
+    save_plot_as_pdf(p, paste0('Band Scatter STEP Wave 1 and Fall MAP by Teacher, ', school.name))
+}
+lapply(schools, make_step_map_band_plot_by_hr, d=d)
+make_step_map_band_plot <- function(school.name, d) {
+  p <- ggplot(subset(d, school.y == school.name), aes(x=fall.percentile, y=gap))+
+    geom_point(shape=1)+
+    geom_hline(yintercept=c(1.5, -1.5))+
+    geom_vline(xintercept=c(40, 60))+
+    scale_x_continuous(limits=c(0, 100), breaks=seq(0, 100, 10))+
+    scale_y_continuous(breaks=seq(-12, 12, 1))+
+    labs(x='MAP Percentile Rank',
+      y='Gap in STEPs to Grade Level\n(Positive is Good, 3 STEPs = 1 Year)',
+      title=paste0('Student Performance on STEP Wave 1 and Fall MAP Reading, ', school.name)
+    )+
+    theme_bw()+
+    theme(axis.text.x=element_text(size=7),
+      axis.text.y=element_text(size=7)
+    )+
+    facet_wrap(school.y ~ grade)
+    save_plot_as_pdf(p, paste0('Band Scatter STEP Wave 1 and Fall MAP, ', school.name))
+}
+lapply(schools, make_step_map_band_plot, d=d)
   
 # 2 STEP and MAP Goal Comparison
 df <- load_data_with_calculated_fields(gaps=F)
