@@ -1,4 +1,4 @@
-calculate_gaps_return_long <- function(d, step.year=2014){
+calculate_gaps_return_long <- function(d, step.year=2015){
   library(reshape2)
   original.cols <- names(d)
   d.m <- melt(d,
@@ -13,6 +13,11 @@ calculate_gaps_return_long <- function(d, step.year=2014){
     as.numeric(r[['level']]) - as.numeric(r[['goal.level']])
   })
   return(d.with.goals)
+}
+
+calculate_gaps_return_wide <- function(d, step.year=2015){
+  d <- calculate_gaps_return_long(d, step.year)
+  return(d)
 }
 
 create_w_first_last_cols <- function(d){

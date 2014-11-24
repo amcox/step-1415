@@ -6,6 +6,7 @@ library(plyr)
 library(reshape2)
 library(gridExtra)
 library(digest)
+library(dplyr)
 
 update_functions <- function() {
 	old.wd <- getwd()
@@ -15,26 +16,18 @@ update_functions <- function() {
 }
 update_functions()
 
-df <- load_latest_step_data()
+df <- load_data_with_gaps_long()
+df <- subset(df, !is.na(level))
 
-# TODO: Hist of gap, hist of growth, ggs mid year with 1 STEP per wave expected
+# Growth hists
+d1 <- subset(df, wave == 1) %>% select(id, level)
+names(d1) <- c('id', 'first')
+d2 <- subset(df, wave == 2) %>% select(id, level)
+names(d2) <- c('id', 'second')
+db <- merge(d1, d2)
+db <- db %>% mutate(dif = second - first)
 
-cut.ggs <- function(vec, expected.steps=3){
-	cut(vec, c(-999, expected.steps, (expected.steps+1), 999),
-													labels=c("opened", "none", "closed"), right=FALSE
-													)
-}
-
-df$ggs <- cut.ggs(df$growth)
-
-ggplot(data=df, aes(x=w5.gap))+
-	geom_bar(aes(y = (..count..)/sum(..count..)), colour="black", binwidth=1)+
-	scale_y_continuous(labels=percent, limits=c(0,.5), breaks=seq(0,.5,.05))+
-	scale_x_continuous(breaks=seq(-10,10,1), limits=c(-10, 10))+
-	theme_bw()+
-	labs(title="")
-
-df.s <- subset(df, df$grade != -1)
+demo <- d %>% select(id, last.name, first.name, school, grade, home.room) %>% unique()
 
 # Growth distributions plot and loop for faceted
 growth.hist <- function(vec, title, y.max){

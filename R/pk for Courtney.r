@@ -27,14 +27,15 @@ p <- ggplot(subset(d.percs, level != -1), aes(x=wave, y=perc, fill=level))+
   geom_bar(stat="identity")+
   scale_fill_manual(values=pk.wave.pal, name='STEP Level')+
   scale_y_continuous(labels=percent, breaks=seq(0,1,.1), limits=c(0,1))+
-  labs(title='Percent of Students at Each STEP Level for PK 2013-14 By School',
+  scale_x_discrete(breaks=seq(2,4,1))+
+  labs(title='Percent of Students at Each STEP Level for PK 2014-15 By School',
     x='Wave',
     y='Percent of Students'
   )+
   theme_bw()+
   facet_wrap(~school, nrow=1)
   
-save_plot_as_pdf(p, 'PK Percent of Students at Each Level 2013-14 By School')
+save_plot_as_pdf(p, 'PK Percent of Students at Each Level 2014-15 By School')
 
 # Percent of students at each STEP by wave by homeroom
 d.percs <- d %>% group_by(home.room, wave) %>% do(percents_of_total(.$level, 'level'))
@@ -46,11 +47,12 @@ p <- ggplot(subset(d.percs, level != -1), aes(x=wave, y=perc, fill=level))+
   geom_bar(stat="identity")+
   scale_fill_manual(values=pk.wave.pal, name='STEP Level')+
   scale_y_continuous(labels=percent, breaks=seq(0,1,.1), limits=c(0,1))+
-  labs(title='Percent of Students at Each STEP Level for PK 2013-14 By Teacher',
+  scale_x_discrete(breaks=seq(2,4,1))+
+  labs(title='Percent of Students at Each STEP Level for PK 2014-15 By Teacher',
     x='Wave',
     y='Percent of Students'
   )+
   theme_bw()+
   facet_wrap(~home.room, nrow=2)
   
-save_plot_as_pdf(p, 'PK Percent of Students at Each Level 2013-14 By Teacher')
+save_plot_as_pdf(p, 'PK Percent of Students at Each Level 2014-15 By Teacher')

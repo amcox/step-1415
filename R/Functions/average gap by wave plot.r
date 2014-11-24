@@ -1,4 +1,4 @@
-make_plot_average_gap <- function(df, title="STEP Average Gap from Grade Level by Wave, 2013-14"){
+make_plot_average_gap <- function(df, title="STEP Average Gap from Grade Level by Wave, 2014-15"){
   # Line graph of STEP average gap over one year
   # Requires data in long format
   library(plyr)

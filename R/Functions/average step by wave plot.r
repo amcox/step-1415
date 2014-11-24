@@ -1,4 +1,4 @@
-make_plot_average_step <- function(df, df.goals, title="STEP Average Level by Wave"){
+make_plot_average_step <- function(df, df.goals, title="STEP Average Level by Wave, 2014-15"){
   # Line graph of STEP average gap over one year
   # Requires data in long format
   library(gdata)
