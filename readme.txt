@@ -20,6 +20,7 @@
     - w2
     - w3
     - w4
-  6. Save the file as 'step data.csv' into the 'Data' directory.
+  6. Manually change school IDs to school abbreviations.
+  7. Save the file as 'step data.csv' into the 'Data' directory.
 2. Make sure you have the 'step goals.csv' file in 'Data'.
-3. 
+3. Run the 'export data for star.r' from masterdash and copy the resulting file into the 'Data' directory as 'benchmark and leap scores.csv'.
