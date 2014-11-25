@@ -15,7 +15,7 @@ update_functions()
 
 df <- load_data_with_gaps_long()
 df <- subset(df, school %in% schools & grade < 3)
-df.goals <- load_step_goals_to_wave_and_year_just_ends(w=4)
+df.goals <- load_step_goals_to_wave_and_year_just_ends(w=4, y=c(2015))
 
 p.avg.step <- make_plot_average_step(df, df.goals, title="Average STEP")+
   theme(plot.title=element_text(size=7),
