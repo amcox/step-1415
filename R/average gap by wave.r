@@ -14,4 +14,5 @@ update_functions()
 df <- load_data_with_gaps_long()
 df <- subset(df, school %in% schools & grade < 3)
 
-save_plot_as_pdf(make_plot_average_gap(df), "STEP Average Gap")
+p = make_plot_average_gap(df)
+save_plot_as_pdf(p, "STEP Average Gap")
