@@ -25,7 +25,7 @@ create_w_first_last_cols <- function(d){
   d$first <- apply(w_col_data, 1, function(r){
     r[!is.na(r)][1]
   })
-  d$last <- apply(w_col_data, 1, function(r){
+  d$latest <- apply(w_col_data, 1, function(r){
     not.nas <- r[!is.na(r)]
     if(length(not.nas) > 0){
       return(not.nas[length(not.nas)])
