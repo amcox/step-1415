@@ -1,5 +1,5 @@
 library(reshape2)
-library(plyr)
+library(dplyr)
 library(ggplot2)
 library(scales)
 library(gdata)
@@ -105,11 +105,12 @@ save_plot_as_pdf(p, "STEP Growth and MAP Goals by STEP Categories")
 df.b$met.rit.goal <- cut(df.b$fall.winter.rit.growth.dif, c(-100, 0, 100),
   labels=c("did not meet", "met"), right=FALSE
 )
-d.p <- ddply(df.b, .(grade.x), function(d){
+calculate_comparison_table_map_step <- function(d) {
   out <- data.frame(prop.table(table(d$met.rit.goal, d$grew2), 1))
   names(out) <- c("map", "step", "perc")
   return(out)
-})
+}
+d.p <- df.b %>% group_by(grade) %>% do(calculate_comparison_table_map_step(.))
 d.p <- subset(d.p, step == 'grew >= 2')
 p <- ggplot(d.p, aes(x=map, y=perc, fill=step))+
   geom_bar(stat="identity", fill="#009900")+

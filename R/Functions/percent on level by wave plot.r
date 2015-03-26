@@ -1,11 +1,10 @@
 make_plot_percent_of_students_on_level <- function(df, title="Percent of Students on Level in STEP by Wave, 2014-15"){
   # Percent of students on level by wave
   # Requires long format data
-  dm <- drop.levels(ddply(df, .(wave, school, grade), summarize,
-  													on.level=length(gap[gap >= 0 & !is.na(gap)]) / 
-  													length(gap[!is.na(gap)])
-  										)
-  )
+  dm <- df %>% group_by(wave, school, grade) %>%
+    summarize(on.level = length(gap[gap >= 0 & !is.na(gap)]) /
+                         length(gap[!is.na(gap)])) %>%
+    drop.levels()
   ggplot(dm, aes(x=wave, y=on.level, color=school))+
   	geom_line(aes(group=school), alpha=.5)+
   	geom_point()+
