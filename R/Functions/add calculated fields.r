@@ -2,7 +2,7 @@ calculate_gaps_return_long <- function(d, step.year=2015){
   library(reshape2)
   original.cols <- names(d)
   d.m <- melt(d,
-    id.vars=original.cols[!original.cols %in% c("w1", "w2", "w3", "w4")],
+    id.vars=original.cols[!original.cols %in% c("w1", "w2", "w3", "w4", 'w5', 'w6')],
     variable.name="wave", value.name="level"
   )
   d.m$wave <- as.numeric(gsub("w", "", d.m$wave))
