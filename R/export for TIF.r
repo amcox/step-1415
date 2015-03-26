@@ -1,4 +1,3 @@
-library(plyr)
 library(dplyr)
 
 update_functions <- function() {

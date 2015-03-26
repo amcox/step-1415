@@ -24,12 +24,7 @@ load_step_goals_to_wave_and_year <- function(w=6, y=c(2014)){
 
 load_step_goals_to_wave_and_year_just_ends <- function(w=6, y=c(2014)){
   df <- load_step_goals_to_wave_and_year(w, y)
-  ddply(df, .(year, grade), .fun=function(d){
-    sorted.d <- d[order(d$wave),]
-    r1 <- sorted.d[1,]
-    r2 <- sorted.d[nrow(sorted.d),]
-    data.frame(rbind(r1, r2))
-  })
+  df %>% group_by(year, grade) %>% arrange(wave) %>% slice(c(1, n()))
 }
 
 load_map_data <- function(){

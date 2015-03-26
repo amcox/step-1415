@@ -1,8 +1,8 @@
 make_plot_average_gap <- function(df, title="STEP Average Gap from Grade Level by Wave, 2014-15"){
   # Line graph of STEP average gap over one year
   # Requires data in long format
-  library(plyr)
-  dm.s <- ddply(df, .(wave, school, grade), summarize, mean.gap=mean(gap, na.rm=T))
+  library(dplyr)
+  dm.s <- df %>% group_by(wave, school, grade) %>% summarize(mean.gap=mean(gap, na.rm=T))
   ggplot(dm.s, aes(x=wave, y=mean.gap, color=school))+
   	geom_line(aes(group=school), alpha=.5)+
   	geom_point()+
