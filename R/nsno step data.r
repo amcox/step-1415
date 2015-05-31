@@ -8,7 +8,7 @@ update_functions()
 
 library(digest)
 
-df <- load_latest_step_data()
+df <- load_step_data()
 
 # # NSNO STEP Reporting for the first round
 # d <- df[,c(1, 5:25)]

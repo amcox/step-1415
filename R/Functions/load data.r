@@ -1,14 +1,20 @@
-load_latest_step_data <- function(){
-  read.csv(file="./../Data/step data.csv", head=TRUE, na.string=c("", " ", "  "))
+load_step_data <- function(y=2015){
+  read.csv(file=paste0("./../Data/step data ", y, ".csv"), head=TRUE, na.string=c("", " ", "  "))
 }
 
-load_data_with_calculated_fields <- function(gaps=T){
-  add_standard_calculated_fields(load_latest_step_data(), gaps)
+load_data_with_calculated_fields <- function(y=2015, gaps=T){
+	if(gaps){
+		d <- load_step_data(y=y)
+		d <- calculate_gaps_return_wide(d, step.year=y)
+		add_standard_calculated_fields(d, gaps)
+	}else{
+		add_standard_calculated_fields(load_step_data(y=y), gaps)
+	}
 }
 
-load_data_with_gaps_long <- function(){
-  df <- load_latest_step_data()
-  return(calculate_gaps_return_long(df))
+load_data_with_gaps_long <- function(y=2015){
+  df <- load_step_data(y=y)
+  return(calculate_gaps_return_long(df, step.year=y))
 }
 
 load_step_goals <- function(){
