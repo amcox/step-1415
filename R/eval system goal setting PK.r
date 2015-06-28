@@ -42,6 +42,9 @@ dg <- d %>% group_by(home.room) %>%
 p <- make_pk_step_eval_setting_plot(dg, '2012-13')
 save_plot_as_pdf_adjustable(p, 'PK STEP 12-13', w=7.5, h=3)
 
+dg$year <- rep('2013', nrow(dg))
+teacher.table <- dg
+
 # 13-14 STEP Data Eval Setting Plot
 d <- load_data_with_calculated_fields(y=2014)
 d <- subset(d, grade == -1 & !is.na(w4))
@@ -54,6 +57,9 @@ dg <- d %>% group_by(home.room) %>%
 p <- make_pk_step_eval_setting_plot(dg, '2013-14')
 save_plot_as_pdf_adjustable(p, 'PK STEP 13-14', w=7.5, h=3)
 
+dg$year <- rep('2014', nrow(dg))
+teacher.table <- rbind(teacher.table, dg)
+
 # 14-15 STEP Data Eval Setting Plot
 d <- load_data_with_calculated_fields(y=2015)
 d <- subset(d, grade == -1 & !is.na(w4))
@@ -65,3 +71,8 @@ dg <- d %>% group_by(home.room) %>%
 
 p <- make_pk_step_eval_setting_plot(dg, '2014-15')
 save_plot_as_pdf_adjustable(p, 'PK STEP 14-15', w=7.5, h=3)
+
+dg$year <- rep('2015', nrow(dg))
+teacher.table <- rbind(teacher.table, dg)
+
+save_df_as_csv(teacher.table, 'PK STEP Eval Setting Teacher Percentiles')

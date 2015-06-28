@@ -8,15 +8,7 @@ update_functions <- function() {
 }
 update_functions()
 
-df <- load_data_with_gaps_long()
-df$wave <- paste0('w', df$wave)
-df <- df[, c('wave', 'id', 'level')]
-df$level[df$level=='FP'] <- 13
-df$level <- as.numeric(df$level)
+d <- load_data_with_calculated_fields()
+ds <- d %>% select(id, w1:w4, first, latest, growth)
 
-dw <- dcast(df, id ~ wave)
-
-dw <- create_w_first_last_cols(dw)
-dw$first.last.growth <- dw$last - dw$first
-
-save_df_as_csv(dw, 'step data for tif')
+save_df_as_csv(ds, 'step data for tif')

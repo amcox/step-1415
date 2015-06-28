@@ -1,6 +1,7 @@
 .RHistory
 .Rapp.history
 .Rdata
+.DS_Store
 Data/*
 Graphs/*
 Output/*
