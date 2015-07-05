@@ -1,5 +1,5 @@
 load_step_data <- function(y=2015){
-  read.csv(file=paste0("./../Data/step data ", y, ".csv"), head=TRUE, na.string=c("", " ", "  "))
+  read.csv(file=paste0("./../Data/step data/step data ", y, ".csv"), head=TRUE, na.string=c("", " ", "  "))
 }
 
 load_data_with_calculated_fields <- function(y=2015, gaps=T){
@@ -46,3 +46,22 @@ load_leap_data <- function(){
   names(d) <- tolower(names(d))
   return(d)
 }
+
+read_step_file_and_add_year <- function(filename) {
+  library(stringr)
+	d <- read.csv(file=filename, head=TRUE, na.string=c("", " ", "  "), stringsAsFactors=F)
+	year.string <- str_extract(filename, "20[0-9][0-9]")
+	d$year <- rep(year.string, nrow(d))
+	return(d)
+}
+
+load_all_step_data_return_long <- function() {
+	library(tidyr)
+  filenames <- list.files("./../Data/step data", pattern=".csv", full.names=TRUE)
+  ldf <- lapply(filenames, read_step_file_and_add_year)
+  res <- lapply(ldf, gather, wave, level, -id, -last.name, -first.name, -school, -grade, -home.room, -year)
+  d <- rbind_all(res)
+	d$wave <- as.numeric(gsub("w", "", d$wave))
+  return(d)
+}
+
