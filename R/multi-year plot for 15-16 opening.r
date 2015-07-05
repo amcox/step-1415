@@ -47,17 +47,21 @@ p <- ggplot(d.ms, aes(x=wave, y=avg.level, color=school))+
 	facet_grid(grade ~ year)
 save_plot_as_pdf(p, 'Average STEP Level for All Grades, All Years')
 
-# Save summary table with average level
-save_df_as_csv(d.ms, 'Average STEP Level for All Grades, All Years')
-
 # Make and save summary table with percent on-level
 g <- goals
 names(g)[names(g) == 'level'] <- 'goal.level'
 d.wg <- merge(d.s, g, all.x=T)
 d.wg <- d.wg %>% mutate(gap = level - goal.level)
 d.wg <- subset(d.wg, !is.na(gap))
-d.sum <- d.wg %>% group_by(school, grade, year, wave) %>% summarize(perc.on.level = mean(gap >= 0, na.rm=T))
+d.sum <- d.wg %>% group_by(school, grade, year, wave) %>%
+	summarize(perc.on.level = mean(gap >= 0, na.rm=T), mean.level = mean(level, na.rm=T))
+
+d.sum.all <- d.wg %>% group_by(grade, year, wave) %>%
+	summarize(perc.on.level = mean(gap >= 0, na.rm=T), mean.level = mean(level, na.rm=T))
+d.sum.all$school <- rep('All', nrow(d.sum.all))
+d.sum <- rbind(d.sum, d.sum.all)
+
 d.sum$wave <- str_replace_all(d.sum$wave, '1', 'BOY')
 d.sum$wave <- str_replace_all(d.sum$wave, '[0-9]', 'EOY')
 
-save_df_as_csv(d.sum, 'STEP Percent On-Level for All Grades, All Years')
+save_df_as_csv(d.sum, 'STEP Summary Table for 15-16 Opening')
