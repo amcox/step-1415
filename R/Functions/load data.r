@@ -65,3 +65,18 @@ load_all_step_data_return_long <- function() {
   return(d)
 }
 
+load_parc_data_15 <- function() {
+  d <- read.csv(file="./../Data/grade 3 parc 14-15.csv", head=TRUE, na.string=c(""),
+		stringsAsFactors=F
+	)
+  names(d) <- tolower(names(d))
+  return(d)
+}
+
+load_parc_cuts_15 <- function() {
+  d <- read.csv(file="./../Data/parc cut scores.csv", head=TRUE, na.string=c(""),
+		stringsAsFactors=F
+	)
+  names(d) <- tolower(names(d))
+  return(d)
+}
